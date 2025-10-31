@@ -1,19 +1,20 @@
 {
-  "name": "parliamentvoterid",
+  "name": "voterid-v2",
   "version": "1.0.0",
+  "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/astra-the-boop/voterid-v2.git"
   },
   "private": true,
   "dependencies": {
-    "axios": "^1.9.0",
-    "dotenv": "^16.5.0",
+    "airtable": "^0.12.2",
+    "axios": "^1.13.0",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  }
 }

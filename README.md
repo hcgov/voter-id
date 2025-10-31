@@ -1,7 +1,8 @@
-# HC Parliament Voter ID Registration System
+# HC Parliament Voter ID Registration System Version 2
 ### Unique Voter identification system for Hack Club Parliament
+### [https://voterid.hcgov.uk](https://voterid.hcgov.uk)
 
-#### The Parliament of Hack Club (Hack Club Parliament) and other associated communities and entities are not associated with the Hack Club non-profit organization. This is an unofficial community group and only exists for the purpose of entertainment.
+#### The Parliament of Hack Club (Hack Club Parliament) and other associated communities and entities are not associated with the Hack Club 501(c)(3) non-profit organization. This is an unofficial community group and only exists for the purpose of entertainment.
 
 ---
 ## Usage guide and briefing on how it works:
@@ -11,19 +12,24 @@
 - You will land on a page thanking you for signing up to vote, **make sure you read the disclaimers**!
 - After you're done, click Proceed
 
-> We generate this code by passing your Slack ID  which we get directly from Slack's API through a hashing algorithm to ensure security!
+> We generate this code by passing your Slack ID  which we get directly from Slack's API through an algorithm to ensure security!
 
-If you're on the digital ballot page, just select and copy, or click on the "Copy" button to save the code to your clipboard
-
-If you're on the physical ballot page, copy down the characters given to you or fill in a box if told to!
-
-> This one is actually a bit more interesting, we pass this through another hashing algorithm that's a bit more limited to 6 non-case-sensitive alphanumerical characters for the Voter ID and an integer between 0 and 2 (Matching Blocks A, B, and C) for the Voter Block!
+Select and copy, or click on the "Copy" button to save the code to your clipboard.
 
 ---
 ## Hosting Guide:
-- Create 2 Slack apps on [Slack API](https://api.slack.com)
+- Create a Slack app on [Slack API](https://api.slack.com)
+- Create a base on [Airtable](https://airtable.com)
+- Create the following fields
+  - Text: "Slack ID"
+  - Text: "Username"
+  - Email: "Email"
+  - Text: "Registration time"
+  - Text: "Voter ID"
+  - Autonumber: "Index"
+- Get your Airtable API key at [https://airtable.com/create/tokens](https://airtable.com/create/tokens)
 ```
-Both boths should have the following:
+The bot should have the following:
 
 Token with: 
 connections:write, authorizations:read,app_configurations:write
@@ -34,39 +40,26 @@ chat:write, im:write, users:read
 User token scopes:
 identity.basic, openid
 
-Bot 1 should have its Redirect URL be https://<your domain>/callback
-Bot 2 should have its Redirect URL be https://<your domain>/physical
+The bot should have its Redirect URL be https://<your domain>/callback
 ```
 - Install [node.js](https://nodejs.org/en)
 - Create a `.env` file in the root directory
 - Inside the `.env` file enter the following:
 ```dotenv
-CLIENT_ID="Client ID of your first bot (for digital ballots)"
-CLIENT_SECRET="First bot's client secret"
-BOT_TOKEN="First bot's bot token"
+CLIENT_ID=000000000.000000000000
+CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+BOT_TOKEN=example
 
-CLIENT_ID1="Client ID of your second bot (for physical ballots)"
-CLIENT_SECRET1="2nd bot's client secret"
-BOT_TOKEN1="2nd bot's bot token"
+REDIRECT_DOMAIN=https://example.com
 
-REDIRECT_DOMAIN="The domain where Slack will redirect to / get requests and whatnot from"
-
-ENCRYPT_KEY="Passcode / key used in the encryption hashing to generate and check the voter IDs"
+AIRTABLE_KEY=xxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+AIRTABLE_DB_ID=xxxxxxxxxxxxxxxxx
+AIRTABLE_TBL_NAME="Table 1"
 ```
 - Run the following commands in the terminal (or different terminal instances) in the root directory of wherever you installed this:
 ```shell
 node server.js
 ```
-```shell
-node physical/server.js
-```
-```shell
-node proxy/proxy.js
-```
-
-> Fun fact: the proxy.js file is used as a ... well... proxy... to have the other 2 instances work together on the same port and domain!! i think i don't know i'm not that knoweledgeable or however you spell that word
-
-Should be up and running now!! Want custom encryption methods? Modify the `cypherProcess` function in both .js files
 
 ---
 

@@ -1,151 +1,47 @@
-require("dotenv").config();
-const express = require("express");
-const axios = require("axios");
+import dotenv from 'dotenv';
+dotenv.config();
+import crypto from "crypto";
+import express from "express";
+import axios from "axios";
+import Airtable from "airtable";
 const app = express();
-const port = 3001;
+const port = 3099;
+
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const redirectUri = `${process.env.REDIRECT_DOMAIN}/callback`;
 
-const key = process.env.ENCRYPT_KEY;
+//airtable bs
 
-//defining cipher methods as functions for convenience's sake
-function base64(input){
-    return Buffer.from(input).toString('base64')
-}
+const base = new Airtable({apiKey: process.env.AIRTABLE_KEY}).base(process.env.AIRTABLE_DB_ID);
+const table = base(process.env.AIRTABLE_TBL_NAME);
 
-function xorEncrypt(input, key){
-    const keyBytes = new textEncoder().encode(key);
-    const result = new uint8Array(input.length);
-    for(let i=0; i<input.length; i++){
-        result[i] = data[i] ^ keyBytes[i % keyBytes.length];
+async function getIndex(){
+    const records = await table.select({
+        sort:[{field: "Index", direction: "desc"}],
+        maxRecords: 1
+    }).firstPage();
+
+    if(records.length === 0){
+        return 1;
     }
-    return result;
+    const latest = records[0].fields["Index"] || 0;
+    return latest + 1;
 }
 
-function replace(input,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,zero,one,two,three,four,five,six,seven,eight,nine){
-    let output = "";
-    for(i=0; i<input.length; i++){
-        switch(input[i].toLowerCase()){
-            case "a":
-                output += a;
-                break;
-            case "b":
-                output += b;
-                break;
-            case "c":
-                output += c;
-                break;
-            case "d":
-                output += d;
-                break;
-            case "e":
-                output += e;
-                break;
-            case "f":
-                output += f;
-                break;
-            case "g":
-                output += g;
-                break;
-            case "h":
-                output += h;
-                break;
-            case "i":
-                output += i;
-                break;
-            case "j":
-                output += j;
-                break;
-            case "k":
-                output += k;
-                break;
-            case "l":
-                output += l;
-                break;
-            case "m":
-                output += m;
-                break;
-            case "n":
-                output += n;
-                break;
-            case "o":
-                output += o;
-                break;
-            case "p":
-                output += p;
-                break;
-            case "q":
-                output += q;
-                break;
-            case "r":
-                output += r;
-                break;
-            case "s":
-                output += s;
-                break;
-            case "t":
-                output += t;
-                break;
-            case "u":
-                output += u;
-                break;
-            case "v":
-                output += v;
-                break;
-            case "w":
-                output += w;
-                break;
-            case "x":
-                output += x;
-                break;
-            case "y":
-                output += y;
-                break;
-            case "z":
-                output += z;
-                break;
-            case "1":
-                output += one;
-                break;
-            case "2":
-                output += two;
-                break;
-            case "3":
-                output += three;
-                break;
-            case "4":
-                output += four;
-                break;
-            case "5":
-                output += five;
-                break;
-            case "6":
-                output += six;
-                break;
-            case "7":
-                output += seven;
-                break;
-            case "8":
-                output += eight;
-                break;
-            case "9":
-                output += nine;
-                break;
-            case "0":
-                output += zero;
-                break;
-            default:
-                break;}}}
+export function cipherProcess(slackId, timestamp, index){
+    const base = `${slackId}:${timestamp}:${index}`;
+    const hash = crypto.createHash("sha1").update(base).digest("hex");
+    const n = parseInt(hash.slice(0,8),16);
+    let base36=n.toString(36).toUpperCase();
+    if(base36.length>6){
+        base36=base36.slice(-6);
+    }else{
+        base36=base36.padStart(6,"0");
 
-//add your own if you want :D
-
-function cipherProcess(input){
-    //enter process here
-    let output = input;
-    output = base64(output);
-    return output
+    }
+    return base36;
 }
 
 //the rest of the code below :3c
@@ -168,9 +64,10 @@ async function sendDM(channelID, messageText, time){
     }
 }
 
-app.get("/", async (req, res) => {
+app.get("/callback", async (req, res) => {
     const code = req.query.code;
     const unixTimestamp = Date.now();
+
     try{
         const tokenRes = await axios.post("https://slack.com/api/openid.connect.token", null, {
             params: {
@@ -196,10 +93,23 @@ app.get("/", async (req, res) => {
         if(!userInfo.data.sub){
             return res.status(500).send(`Error: ${userInfo.data.sub}`);
         }
+        const voterId = cipherProcess(userInfo.data.sub, unixTimestamp, getIndex());
+        await table.create([
+            {
+                fields:{
+                    "Slack ID": userInfo.data.sub,
+                    "Username": userInfo.data.name || "",
+                    "Email": userInfo.data.email || "",
+                    "Registration time": new Date(unixTimestamp),
+                    "Voter ID": voterId,
+                }
+            }
+        ]);
 
-        await sendDM(userInfo.data.sub, `:parliament-mini: *Thank you for signing up to vote in the August 2025 Hack Club elections.* :tada:
 
-> Time of retrieval *(THIS IS NOT THE VOTER ID)*: ${unixTimestamp} 
+        await sendDM(userInfo.data.sub, `:parliament-mini: *Thank you for signing up to vote in the November 2025 Hack Club elections.* :tada:
+
+> Time of retrieval: ${new Date(unixTimestamp).toISOString()} 
 > User Slack ID: ${userInfo.data.sub}
 
 _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`);
@@ -209,6 +119,26 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
 <head>
     <meta charset="UTF-8"/>
     <style>
+    
+        @media (max-aspect-ratio: 3/4), (max-width: 768px){
+            #body{
+            padding: 0 5% 0 5%;
+            }
+            
+            h1{
+            font-size: 28px;
+            }
+            
+            code {
+                font-size: 1.2rem;
+                word-wrap: break-word;
+            }
+            
+            #logo{
+            height: 45px;
+            }
+        }
+        
         @font-face {
     font-family: 'Phantom Sans';
     src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff')
@@ -247,7 +177,8 @@ body{
 
 code{
     background-color: #8492a6;
-    color: black
+    color: black;
+    font-size: 1.7rem;
 }
 
 #body {
@@ -316,7 +247,7 @@ button {
     color: #e0e6ed;
   }
     </style>
-    <title>August 2025 Voter ID Registration - Hack Club Parliament</title>
+    <title>November 2025 Voter ID Registration - Hack Club Parliament</title>
 </head>
 <body>
     <script>
@@ -333,11 +264,10 @@ button {
         <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/6cccae8b08b7481b3ad4ba320ccadf381a032c96_parliament-full.svg" id="logo">
     </div>
     <div id="body">
-        <h1>Thank you for signing up to vote in the August 2025 General Elections!</h1>
+        <h1>Thank you for signing up to vote in the November 2025 General Elections!</h1>
         <h2 style="color:#338eda">Your voter identification details are below. Please submit this on your vote ballot.</h2>
-        <h3 style="color: #8492a6">Time of retrieval: ${unixTimestamp}</h3>
         
-        <h2>Do NOT share your voter identification code, this code is used to identify you are a legitimate voter. This code is only valid for the August 2025 Election cycle for the digital ballot.</h2>
+        <h2>Do NOT share your voter identification code, this code is used to identify you are a legitimate voter. This code is only valid for the November 2025 Election cycle for the digital ballot.</h2>
         <button id="proceed" onclick="document.getElementById('details').style.display = 'block'; document.getElementById('proceed').style.display = 'none'">Proceed</button>
         <div id="details" style="display: none">
     <h2 style="color: #338eda"><b>Slack ID:</b></h2>
@@ -347,7 +277,7 @@ button {
         <button onclick="copyText('Slack_ID')">Copy text</button>
 <br><br><b><h2 style="color: #338eda">Voter Identification Code:</h2></b>
         <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
-        <code id="Voter_ID_Code">${cipherProcess(userInfo.data.sub)}</code>
+        <code id="Voter_ID_Code">${voterId}</code>
         </div>
         <button onclick="copyText('Voter_ID_Code')">Copy text</button>
         </div>
@@ -366,4 +296,4 @@ button {
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
-})
+});
