@@ -1,4 +1,4 @@
-# HC Parliament Voter ID Registration System Version 2
+# HC Parliament Voter ID Registration System Version 3
 ### Unique Voter identification system for Hack Club Parliament
 ### [https://voterid.hcgov.uk](https://voterid.hcgov.uk)
 
@@ -6,9 +6,9 @@
 
 ---
 ## Usage guide and briefing on how it works:
-- Click the "Sign in with Slack" button or click the link / scan the QR code if you were given one instead
-- Sign into Slack if you haven't already
-- Click Allow when Slack asks you for permission to access Hack Club workspace
+- Click the "Sign in with Slack" or "Log in with Hack Club" button or click the link / scan the QR code if you were given one instead
+- Sign into Slack or HCA if you haven't already
+- Proceed with instructions on the following page
 - You will land on a page thanking you for signing up to vote, **make sure you read the disclaimers**!
 - After you're done, click Proceed
 
@@ -19,6 +19,7 @@ Select and copy, or click on the "Copy" button to save the code to your clipboar
 ---
 ## Hosting Guide:
 - Create a Slack app on [Slack API](https://api.slack.com)
+- Create an app on [HCA](https://auth.hackclub.com)
 - Create a base on [Airtable](https://airtable.com)
 - Create the following fields
   - Text: "Slack ID"
@@ -26,6 +27,8 @@ Select and copy, or click on the "Copy" button to save the code to your clipboar
   - Email: "Email"
   - Text: "Registration time"
   - Text: "Voter ID"
+  - Text: "IDV"
+  - Text: "Hackatime"
   - Autonumber: "Index"
 - Get your Airtable API key at [https://airtable.com/create/tokens](https://airtable.com/create/tokens)
 ```
@@ -53,12 +56,16 @@ BOT_TOKEN=example
 REDIRECT_DOMAIN=https://example.com
 
 AIRTABLE_KEY=xxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-AIRTABLE_DB_ID=xxxxxxxxxxxxxxxxx
+AIRTABLE_DB_ID=appxxxxxxxxxxxxxx
 AIRTABLE_TBL_NAME="Table 1"
+
+HCA_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+HCA_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+HCA_REDIRECT="https://example.com/callback
 ```
 - Run the following commands in the terminal (or different terminal instances) in the root directory of wherever you installed this:
 ```shell
-node server.js
+node server.ts
 ```
 
 ---
