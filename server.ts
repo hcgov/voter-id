@@ -7,6 +7,7 @@ import rateLimit from "express-rate-limit";
 import { Resend } from "resend";
 import Airtable from "airtable";
 import helmet from "helmet";
+import cors from "cors";
 const app = express();
 const port = 3298;
 
@@ -27,6 +28,13 @@ const resendKey = process.env.RESEND_KEY as string;
 const resend = new Resend(resendKey);
 
 app.use(express.json());
+app.use(cors({
+    origin: [
+        "https://astra-the-boop.github.io",
+        "https://voterid.hcgov.uk",
+        "https://hcgov.github.io"
+    ]
+}));
 app.use(helmet());
 
 async function getHackatimeStatus(slackId: string){
