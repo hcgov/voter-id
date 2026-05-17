@@ -62,7 +62,13 @@ AIRTABLE_TBL_NAME="Table 1"
 HCA_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 HCA_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 HCA_REDIRECT="https://example.com/callback
+
+NRC_DB_ID=appxxxxxxxxxxxxxx
+NRC_TABLE="Table 1"
+
+RESEND_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
+
 - Run the following commands in the terminal (or different terminal instances) in the root directory of wherever you installed this:
 ```shell
 node server.ts

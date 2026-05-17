@@ -84,5 +84,24 @@ button:hover{
 }
 
 a{
+    text-decoration: none;
     color: #ec3750;
 }
+
+#nrcLogin{
+    all: unset;
+    background-color: #8492a6;
+    color: white;
+    border: none;
+    height: 3rem;
+    width: 16rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+#nrcLogin:hover{
+    cursor: pointer;
+}
+
