@@ -333,7 +333,7 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
             });
         }
         
-        document.getElementById("proceed").addEventListener("click", {
+        document.getElementById("proceed").addEventListener("click", () => {
             document.getElementById("details").style.display = "block";
             document.getElementById("proceed").style.display = "none";
             //FUCK YOU CONTENT SECURITY POLICY FUCK YOU IT WAS WORKING FINE BEFORE WHY DON'T YOU FUCKING WORK NOW YOU PIECE OF FUCKING SHIT
@@ -566,7 +566,7 @@ Please note that your Voter ID is only valid for *2 months*, please generate a n
         });
     }
     
-    document.getElementById("proceed").addEventListener("click", {
+    document.getElementById("proceed").addEventListener("click", () => {
         document.getElementById("details").style.display = "block";
         document.getElementById("proceed").style.display = "none";
         //FUCK YOU CONTENT SECURITY POLICY FUCK YOU IT WAS WORKING FINE BEFORE WHY DON'T YOU FUCKING WORK NOW YOU PIECE OF FUCKING SHIT
