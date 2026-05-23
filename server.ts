@@ -557,7 +557,8 @@ Please note that your Voter ID is only valid for *2 months*, please generate a n
 </head>
 <body>
     <script>
-    function copyText(id) {
+    window.addEventListener("DOMContentLoaded", () => {
+        function copyText(id) {
         const text = document.getElementById(id).textContent;
         navigator.clipboard.writeText(text).then(() => {
             alert("Copied " + id + " to clipboard");
@@ -571,6 +572,8 @@ Please note that your Voter ID is only valid for *2 months*, please generate a n
         document.getElementById("proceed").style.display = "none";
         //FUCK YOU CONTENT SECURITY POLICY FUCK YOU IT WAS WORKING FINE BEFORE WHY DON'T YOU FUCKING WORK NOW YOU PIECE OF FUCKING SHIT
     });
+    })
+    
 </script>
     <div id="header">
         <img src="https://user-cdn.hackclub-assets.com/019c6977-598c-76bc-a27a-fbfa95353d10/parliament-full__1_.svg" id="logo">
