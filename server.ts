@@ -329,6 +329,12 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
             alert("Failed to copy text: " + err);
         });
     }
+    
+    function fucker(){
+        document.getElementById("details").style.display = "block";
+        document.getElementById("proceed").style.display = "none";
+        //FUCK YOU CONTENT SECURITY POLICY FUCK YOU IT WAS WORKING FINE BEFORE WHY DON'T YOU FUCKING WORK NOW YOU PIECE OF FUCKING SHIT
+    }
 </script>
     <div id="header">
         <img src="https://user-cdn.hackclub-assets.com/019c6977-598c-76bc-a27a-fbfa95353d10/parliament-full__1_.svg" id="logo">
@@ -674,12 +680,13 @@ app.post("/nrc-email-check", async(req:Request, res:Response) => {
             to: email,
             subject: "Your Verification Code",
             html: `<body style="background-color: #e0e6ed; text-align: center; font-family: 'Phantom Sans', Helvetica, sans-serif; margin-left: 10%; margin-right: 10%;">
+    <p style="color: #ec3750; font-size: 1.6rem"><b>This is NOT your Voter ID. Please log in using this code and click Submit to obtain your Voter ID.</b></p>
     <p style="color: #ec3750; font-size: 1.5rem"><b>This is a one time passcode. Do not share this code with anyone.</b></p>
     <p style="font-size: 1.75rem; margin-bottom: 0.2rem;">Your verification code is:</p>
     <div style="background-color: #8492a6; color: white; width: 15rem; font-size: 3rem; padding: 1.5rem; letter-spacing: 0.5rem; font-family: monospace; margin-left: auto; margin-right: auto; border-radius: 15px"><b>${otp}</b></div>
     <p style="font-size: 1.7rem; color: #ec3750">This verification code will expire in 30 minutes.</p>
     <br><br>
-    <p>Official communication from the National Immigration and Citizenship Office of the Democratic Republic of Hack Club and Hack Club Election Committee</p>
+    <p>Official communication from the National Immigration and Citizenship Office of the Democratic Republic of Hack Club and Hack Club Election Committee. Only trust emails coming from *@hcgov.uk</p>
     <br>
     <p><b>Notice:</b> The Democratic Republic of Hack Club and all related entities and communities are not associated with the 501(c)(3) US-based nonprofit organization "The Hack Foundation" (d.b.a. Hack Club). We exist as a role-play group within the community of Hack Club.</p>
 </body>`,
