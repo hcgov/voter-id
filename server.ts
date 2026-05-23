@@ -35,7 +35,9 @@ app.use(cors({
         "https://hcgov.github.io"
     ]
 }));
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false
+}));
 
 async function getHackatimeStatus(slackId: string){
     try{
