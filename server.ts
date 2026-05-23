@@ -323,20 +323,23 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
 </head>
 <body>
     <script>
-    function copyText(id) {
-        const text = document.getElementById(id).textContent;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("Copied " + id + " to clipboard");
-        }).catch(err => {
-            alert("Failed to copy text: " + err);
+    window.addEventListener("DOMContentLoaded", () => {
+        function copyText(id) {
+            const text = document.getElementById(id).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied " + id + " to clipboard");
+            }).catch(err => {
+                alert("Failed to copy text: " + err);
+            });
+        }
+        
+        document.getElementById("proceed").addEventListener("click", {
+            document.getElementById("details").style.display = "block";
+            document.getElementById("proceed").style.display = "none";
+            //FUCK YOU CONTENT SECURITY POLICY FUCK YOU IT WAS WORKING FINE BEFORE WHY DON'T YOU FUCKING WORK NOW YOU PIECE OF FUCKING SHIT
         });
-    }
+    })
     
-    document.getElementById("proceed").addEventListener("click", {
-        document.getElementById("details").style.display = "block";
-        document.getElementById("proceed").style.display = "none";
-        //FUCK YOU CONTENT SECURITY POLICY FUCK YOU IT WAS WORKING FINE BEFORE WHY DON'T YOU FUCKING WORK NOW YOU PIECE OF FUCKING SHIT
-    });
 </script>
     <div id="header">
         <img src="https://user-cdn.hackclub-assets.com/019c6977-598c-76bc-a27a-fbfa95353d10/parliament-full__1_.svg" id="logo">
