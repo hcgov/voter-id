@@ -330,11 +330,11 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
         });
     }
     
-    function fucker(){
+    document.getElementById("proceed").addEventListener("click", {
         document.getElementById("details").style.display = "block";
         document.getElementById("proceed").style.display = "none";
         //FUCK YOU CONTENT SECURITY POLICY FUCK YOU IT WAS WORKING FINE BEFORE WHY DON'T YOU FUCKING WORK NOW YOU PIECE OF FUCKING SHIT
-    }
+    });
 </script>
     <div id="header">
         <img src="https://user-cdn.hackclub-assets.com/019c6977-598c-76bc-a27a-fbfa95353d10/parliament-full__1_.svg" id="logo">
@@ -344,7 +344,7 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
         <h2 style="color:#338eda">Your voter identification details are below. Please submit this on your vote ballot.</h2>
 
         <h2>Do NOT share your voter identification code, this code is used to identify you are a legitimate voter. This code is only valid for two months, please ensure you generate a new Voter ID every time you vote in a new vote or election. Your ballot may be considered illegitemate if you do not re-generate a new Voter ID.</h2>
-        <button id="proceed" onclick="document.getElementById('details').style.display = 'block'; document.getElementById('proceed').style.display = 'none'">Proceed</button>
+        <button id="proceed">Proceed</button>
         <div id="details" style="display: none">
     <h2 style="color: #338eda"><b>Slack ID:</b></h2>
         <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
@@ -560,6 +560,12 @@ Please note that your Voter ID is only valid for *2 months*, please generate a n
             alert("Failed to copy text: " + err);
         });
     }
+    
+    document.getElementById("proceed").addEventListener("click", {
+        document.getElementById("details").style.display = "block";
+        document.getElementById("proceed").style.display = "none";
+        //FUCK YOU CONTENT SECURITY POLICY FUCK YOU IT WAS WORKING FINE BEFORE WHY DON'T YOU FUCKING WORK NOW YOU PIECE OF FUCKING SHIT
+    });
 </script>
     <div id="header">
         <img src="https://user-cdn.hackclub-assets.com/019c6977-598c-76bc-a27a-fbfa95353d10/parliament-full__1_.svg" id="logo">
@@ -569,7 +575,7 @@ Please note that your Voter ID is only valid for *2 months*, please generate a n
         <h2 style="color:#338eda">Your voter identification details are below. Please submit this on your vote ballot.</h2>
 
         <h2>Do NOT share your voter identification code, this code is used to identify you are a legitimate voter. This code is only valid for two months, please ensure you generate a new Voter ID every time you vote in a new vote or election. Your ballot may be considered illegitemate if you do not re-generate a new Voter ID.</h2>
-        <button id="proceed" onclick="document.getElementById('details').style.display = 'block'; document.getElementById('proceed').style.display = 'none'">Proceed</button>
+        <button id="proceed">Proceed</button>
         <div id="details" style="display: none">
     <h2 style="color: #338eda"><b>Slack ID:</b></h2>
         <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
