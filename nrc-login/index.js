@@ -47,9 +47,17 @@ document.addEventListener('DOMContentLoaded', function () {
     emailInput.addEventListener('input', function () {
         if (!validateEmail(emailInput.value) && emailInput.value) {
             emailError.innerHTML = "Please enter a valid email address<br><br>";
+            otpSendBtn.disabled = true;
+            console.log("A");
+        }
+        else if (emailInput.value) {
+            otpSendBtn.disabled = false;
+            console.log("B");
         }
         else {
             emailError.innerHTML = "";
+            otpSendBtn.disabled = true;
+            console.log("C");
         }
     });
     otpSendBtn.addEventListener("click", function () { return __awaiter(_this, void 0, void 0, function () {
@@ -57,9 +65,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    otpSendBtn.disabled = true;
+                    otpSendBtn.innerHTML = "Sending...";
                     email = emailInput.value.trim().toLowerCase();
                     if (!validateEmail(email)) {
                         alert("Please enter a valid email address.");
+                        otpSendBtn.disabled = false;
                         return [2 /*return*/];
                     }
                     _a.label = 1;
@@ -81,9 +92,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     data = _a.sent();
                     if (!data.ok) {
                         alert(data.error || "Unable to send verification code");
+                        otpSendBtn.disabled = true;
                         return [2 /*return*/];
                     }
                     otpSection.style.display = "block";
+                    otpSendBtn.style.display = "none";
                     return [3 /*break*/, 5];
                 case 4:
                     err_1 = _a.sent();

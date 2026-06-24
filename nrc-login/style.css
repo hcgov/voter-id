@@ -148,6 +148,11 @@ a {
     background-color: #c62339;
 }
 
+#send-code:disabled{
+    background-color: #878f9c;
+    cursor: not-allowed;
+}
+
 #otp-input{
     all:unset;
     background-color: #e0e6ed;
@@ -186,4 +191,8 @@ a {
 
 #otp{
     display: none;
+}
+
+#submit:disabled{
+    background-color: #878f9c;
 }
