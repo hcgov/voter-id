@@ -305,11 +305,14 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
     border: 2px solid currentcolor;
     padding: 5px 5px 5px 5px
   }
+  
   button:focus,
-  button:hover {
+  button:hover,
+  button:active {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.0625),0 8px 12px rgba(0, 0, 0, 0.125);;
     transform: scale(1.0625);
   }
+  
   summary::marker{
     content: "";
   }
@@ -317,20 +320,11 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
     color: #e0e6ed;
   }
     </style>
-    <title>Voter ID Registration - Hack Club Parliament</title>
+    <title>Voter ID Registration - Democratic Republic of Hack Club</title>
 </head>
 <body>
     <script>
     window.addEventListener("DOMContentLoaded", () => {
-        function copyText(id) {
-            const text = document.getElementById(id).textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Copied " + id + " to clipboard");
-            }).catch(err => {
-                alert("Failed to copy text: " + err);
-            });
-        }
-        
         document.getElementById("proceed").addEventListener("click", () => {
             document.getElementById("details").style.display = "block";
             document.getElementById("proceed").style.display = "none";
@@ -353,12 +347,10 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
         <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
         <code id="Slack_ID">${userInfo.data.sub}</code>
         </div>
-        <button onclick="copyText('Slack_ID')">Copy text</button>
 <br><br><b><h2 style="color: #338eda">Voter Identification Code:</h2></b>
         <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
         <code id="Voter_ID_Code">${voterId}</code>
         </div>
-        <button onclick="copyText('Voter_ID_Code')">Copy text</button>
         </div>
     <br><br><p style="color: #8492a6">The Parliament of Hack Club (Hack Club Parliament) and other associated communities and entities are not associated with the Hack Club non-profit organization. This is an unofficial community group and only exists for the purpose of entertainment.</p>
     </div>
@@ -538,7 +530,8 @@ Please note that your Voter ID is only valid for *2 months*, please generate a n
     padding: 5px 5px 5px 5px
   }
   button:focus,
-  button:hover {
+  button:hover,
+  button:active {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.0625),0 8px 12px rgba(0, 0, 0, 0.125);;
     transform: scale(1.0625);
   }
@@ -549,20 +542,10 @@ Please note that your Voter ID is only valid for *2 months*, please generate a n
     color: #e0e6ed;
   }
     </style>
-    <title>Voter ID Registration - Hack Club Parliament</title>
+    <title>Voter ID Registration - Democratic Republic of Hack CLub</title>
 </head>
 <body>
     <script>
-    window.addEventListener("DOMContentLoaded", () => {
-        function copyText(id) {
-        const text = document.getElementById(id).textContent;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("Copied " + id + " to clipboard");
-        }).catch(err => {
-            alert("Failed to copy text: " + err);
-        });
-    }
-    
     document.getElementById("proceed").addEventListener("click", () => {
         document.getElementById("details").style.display = "block";
         document.getElementById("proceed").style.display = "none";
@@ -585,12 +568,10 @@ Please note that your Voter ID is only valid for *2 months*, please generate a n
         <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
         <code id="Slack_ID">${userInfo.identity.slack_id}</code>
         </div>
-        <button onclick="copyText('Slack_ID')">Copy text</button>
 <br><br><b><h2 style="color: #338eda">Voter Identification Code:</h2></b>
         <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
         <code id="Voter_ID_Code">${voterId}</code>
         </div>
-        <button onclick="copyText('Voter_ID_Code')">Copy text</button>
         </div>
     <br><br><p style="color: #8492a6">The Parliament of Hack Club (Hack Club Parliament) and other associated communities and entities are not associated with the Hack Club non-profit organization. This is an unofficial community group and only exists for the purpose of entertainment.</p>
     </div>
@@ -891,7 +872,56 @@ app.post("/verify-otp", (req:Request, res:Response) => {
                 border: 2px solid currentcolor;
                 padding: 5px 5px 5px 5px;
             }
+            
+            button:focus,
+            button:hover,
+            button:active{
+                box-shadow: 0 1px 2px rgba(0,0,0,0.625), 0 8px 12px rgba(0,0,0,0.125);
+                transform: scale(1.0625);
+            }
+            
+            summary::marker{
+                content: "";
+            }
+            
+            code{
+            color: #e0e6ed;
+            }
     </style>
+    <title>Voter ID Registration - Democratic Republic of Hack Club</title>
+</html>
+<script>
+    window.addEventListener("DOMContentLoaded", ()=>{
+        document.getElementById("proceed").addEventListener("click", ()=>{
+            document.getElementById("details").style.display = "block";
+            document.getElementById("proceed").style.display = "none";
+        });
+    });
+</script>
+<div id="header">
+    <img src="https://user-cdn.hackclub-assets.com/019c6977-598c-76bc-a27a-fbfa95353d10/parliament-full__1_.svg" id="logo">
+</div>
+<div id="body">
+    <h1>${userInfo.data.name}, Thank you for signing up to vote in elections or votes for the Democratic Republic of Hack Club!</h1>
+    <h2 style="color:#338eda">Your voter identification details are below. Please submit this on your vote ballot.</h2>
+
+    <h2>Do NOT share your voter identification code, this code is used to identify you are a legitimate voter. This code is only valid for two months, please ensure you generate a new Voter ID every time you vote in a new vote or election. Your ballot may be considered illegitemate if you do not re-generate a new Voter ID.</h2>
+    <button id="proceed">Proceed</button>
+    <div id="details" style="display: none">
+        <h2 style="color: #338eda"><b>Slack ID:</b></h2>
+        <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
+            <code id="Slack_ID">${userInfo.data.sub}</code>
+        </div>
+        <button onclick="copyText('Slack_ID')">Copy text</button>
+        <br><br><b><h2 style="color: #338eda">Voter Identification Code:</h2></b>
+        <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
+            <code id="Voter_ID_Code">${voterId}</code>
+        </div>
+        <button onclick="copyText('Voter_ID_Code')">Copy text</button>
+    </div>
+    <br><br><p style="color: #8492a6">The Parliament of Hack Club (Hack Club Parliament) and other associated communities and entities are not associated with the Hack Club non-profit organization. This is an unofficial community group and only exists for the purpose of entertainment.</p>
+</div>
+</body>
 </html>
     `);
 })
