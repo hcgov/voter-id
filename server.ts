@@ -254,7 +254,7 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
  }
 
  #body {
-     font-family: 'Phantom Sans';
+     font-family: 'Phantom Sans', sans-serif;
      text-align: center;
      color: #ec3750;
      padding: 0 20% 0 20%
@@ -298,8 +298,6 @@ _Not you? Contact us for support in <#C08FA68NV2T> so we can remove this vote!_`
     text-align: center;
     line-height: inherit;
     text-decoration: none;
-    padding: 16px 16px 16px 16px;
-    color: #ffffff;
     background-color: #ec3750;
     font-size:16px;
     background: none;
@@ -488,7 +486,7 @@ Please note that your Voter ID is only valid for *2 months*, please generate a n
  }
 
  #body {
-     font-family: 'Phantom Sans';
+     font-family: 'Phantom Sans', sans-serif;
      text-align: center;
      color: #ec3750;
      padding: 0 20% 0 20%
@@ -532,8 +530,6 @@ Please note that your Voter ID is only valid for *2 months*, please generate a n
     text-align: center;
     line-height: inherit;
     text-decoration: none;
-    padding: 16px 16px 16px 16px;
-    color: #ffffff;
     background-color: #ec3750;
     font-size:16px;
     background: none;
@@ -787,9 +783,117 @@ app.post("/verify-otp", (req:Request, res:Response) => {
 
     otpStore.delete(email);
 
-    return res.json({
-        ok: true
-    })
+    return res.send(`
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <style>
+        @media (max-aspect-ratio: 3/4), (max-width: 768px){
+            #body{
+                padding: 0 5% 0 5%;
+            }
+            h1{
+                font-size: 28px;
+            }
+            code{
+                font-size: 1.2rem;
+                word-wrap: break-word;
+            }
+            #logo{
+                height: 45px;
+            }
+        }
+        
+        @font-face{
+                font-family: "Phantom Sans";
+                src: url("https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff") format("woff"),
+                url("https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff2") format("woff2");
+                font-weight: normal;
+                font-style: normal;
+                font-display: swap;
+            }
+            @font-face{
+                font-family: "Phantom Sans";
+                src: url("https://asset.hackclub.com/fonts/Phantom_Sans_0.7/Italic.woff") format("woff"),
+                url("https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Italic.woff2") format("woff2");
+                font-weight: normal;
+                font-style: italic;
+                font-display: swap;
+            }   
+            @font-face{
+                font-family: "Phantom Sans";
+                src: url("https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff") format("woff"),
+                    url("https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff2") format("woff2");
+                font-weight: bold;
+                font-style: normal;
+                font-display: swap;
+            }
+            
+            body{
+                background-color: #e0e6ed;
+                margin: 0;
+            }
+            
+            code{
+                background-color: #8492a6;
+                color: black;
+                font-size: 1.7rem;
+            }
+            
+            #body{
+                font-family: "Phantom Sans", sans-serif;
+                text-align: center;
+                color: #ec3750;
+                padding: 0 20% 0 20%;            
+            }
+            
+            #header{
+                background-color: #333333;
+                min-width: 100%;
+                display: flex;
+                justify-content: center;
+                padding-top: 15px;
+                padding-bottom: 20px
+            }
+            
+            #logo{
+                height: 60px;
+            }
+            
+            h1{
+                font-size: 40px;
+            }
+            
+            button{
+                cursor: pointer;
+                border-radius: 99999px;
+                font-weight: 700;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.125);
+                letter-spacing: 0.009rem;
+                -webkit-tap-highlight-color: transparent;
+                transition: transform 0.125s ease-in-out, box-shadow 0.125s ease-in-out;
+                box-sizing: border-box;
+                margin-top: 10px;
+                min-width: 0;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                text-align: center;
+                line-height: inherit;
+                text-decoration: none;
+                background-color: #ec3750;
+                font-size:16px;
+                background: none;
+                color: #ec3750;
+                border: 2px solid currentcolor;
+                padding: 5px 5px 5px 5px;
+            }
+    </style>
+</html>
+    `);
 })
 
 //health
