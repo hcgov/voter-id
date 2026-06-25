@@ -28,6 +28,7 @@ const resendKey = process.env.RESEND_KEY as string;
 const resend = new Resend(resendKey);
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     origin: [
         "https://astra-the-boop.github.io",

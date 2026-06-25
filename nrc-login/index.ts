@@ -68,43 +68,31 @@ ${err}`);
 
     submitBtn.addEventListener("click", async() => {
         const email = emailInput.value.trim().toLowerCase();
-        const code = otpInput.value.trim().toLowerCase();
+        const code = otpInput.value.trim();
 
-        if(!/^\d{6}$/.test(email)){
+        if (!/^\d{6}$/.test(code)) {
             alert("Please enter a 6-digit OTP code");
             return;
         }
 
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = "Sending...";
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "https://voterid.astr.ac/verify-otp";
 
-        try{
-            const response = await fetch("https://voterid.astr.ac/verify-otp", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email,
-                    code
-                })
-            });
+        const emailField = document.createElement("input");
+        emailField.type = "hidden";
+        emailField.name = "email";
+        emailField.value = email;
 
-            const data = await response.json();
+        const codeField = document.createElement("input");
+        codeField.type = "hidden";
+        codeField.name = "code";
+        codeField.value = code;
 
-            if(!data.ok){
-                alert(data.error || "Verification failed");
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = "Submit";
-                return;
-            }
-            alert("Email verified");
-        }catch(err){
-            console.log(err);
+        form.appendChild(emailField);
+        form.appendChild(codeField);
 
-            alert(`Verification failed: \n${err}`);
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = "Submit";
-        }
+        document.body.appendChild(form);
+        form.submit();
     });
-})
+});
