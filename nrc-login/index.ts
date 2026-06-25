@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("A");
         }else if(emailInput.value){
             otpSendBtn.disabled = false;
+            emailError.innerHTML = "";
             console.log("B");
         }else{
             emailError.innerHTML = "";
@@ -76,5 +77,34 @@ ${err}`);
 
         submitBtn.disabled = true;
         submitBtn.innerHTML = "Sending...";
+
+        try{
+            const response = await fetch("https://voterid.astr.ac/verify-otp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    code
+                })
+            });
+
+            const data = await response.json();
+
+            if(!data.ok){
+                alert(data.error || "Verification failed");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = "Submit";
+                return;
+            }
+            alert("Email verified");
+        }catch(err){
+            console.log(err);
+
+            alert(`Verification failed: \n${err}`);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = "Submit";
+        }
     });
 })
