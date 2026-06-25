@@ -709,34 +709,36 @@ const verifyLimiter = rateLimit({
 })
 
 app.use("/verify-otp", (verifyLimiter));
-app.post("/verify-otp", (req:Request, res:Response) => {
+app.post("/verify-otp", async (req: Request, res: Response) => {
     const email = String(req.body.email || "").trim().toLowerCase();
     const code = String(req.body.code || "").trim();
 
     const stored = otpStore.get(email);
 
-    if(!emailRegex.test(email)){
+
+
+    if (!emailRegex.test(email)) {
         return res.status(400).json({
             ok: false,
             error: "Invalid email format."
         })
     }
 
-    if(!/^\d{6}$/.test(code)){
+    if (!/^\d{6}$/.test(code)) {
         return res.status(400).json({
             ok: false,
             error: "Invalid OTP Code"
         })
     }
 
-    if(!stored){
+    if (!stored) {
         return res.status(400).json({
             ok: false,
             error: "No OTP found."
         })
     }
 
-    if(Date.now() > stored.expires){
+    if (Date.now() > stored.expires) {
         otpStore.delete(email);
 
         return res.status(400).json({
@@ -747,7 +749,7 @@ app.post("/verify-otp", (req:Request, res:Response) => {
 
     stored.attempts++;
 
-    if(stored.attempts > 8){
+    if (stored.attempts > 8) {
         otpStore.delete(email);
         return res.status(429).json({
             ok: false,
@@ -755,7 +757,7 @@ app.post("/verify-otp", (req:Request, res:Response) => {
         })
     }
 
-    if(stored.code !== code){
+    if (stored.code !== code) {
         return res.status(400).json({
             ok: false,
             error: "Invalid OTP"
@@ -763,6 +765,44 @@ app.post("/verify-otp", (req:Request, res:Response) => {
     }
 
     otpStore.delete(email);
+    let name:string;
+    let id:string;
+    let voter_id:string;
+
+    try {
+        const unixTimestamp = Date.now();
+        const cleanEmail = email.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, "");
+        const records = await nrcTable.select({
+            filterByFormula: `
+                OR(
+                    LOWER({Email sent to}) = LOWER("${cleanEmail}"),
+                    LOWER({Email given in contract}) = LOWER("${cleanEmail}")
+                )
+            `
+        }).firstPage();
+
+        const record = records[0]
+        const voterId = cipherProcess(record.fields["ID"] as string, unixTimestamp, await getIndex());
+        name = record.fields["Name"] as string;
+        id = record.fields["ID"] as string;
+        voter_id = voterId;
+        await createRecord({
+            slackId: record.fields["ID"] as string,
+            username: record.fields["Name"] as string || "",
+            email: record.fields["Email given in contract"] as string,
+            voterId: voterId,
+            registrationTime: new Date(unixTimestamp),
+            idv: "",
+            hackatime: ""
+        });
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            ok: false,
+            error: "Internal Server Error"
+        });
+    }
 
     return res.send(`
 <!DOCTYPE html>
@@ -902,22 +942,20 @@ app.post("/verify-otp", (req:Request, res:Response) => {
     <img src="https://user-cdn.hackclub-assets.com/019c6977-598c-76bc-a27a-fbfa95353d10/parliament-full__1_.svg" id="logo">
 </div>
 <div id="body">
-    <h1>${userInfo.data.name}, Thank you for signing up to vote in elections or votes for the Democratic Republic of Hack Club!</h1>
+    <h1>${name}, Thank you for signing up to vote in elections or votes for the Democratic Republic of Hack Club!</h1>
     <h2 style="color:#338eda">Your voter identification details are below. Please submit this on your vote ballot.</h2>
 
     <h2>Do NOT share your voter identification code, this code is used to identify you are a legitimate voter. This code is only valid for two months, please ensure you generate a new Voter ID every time you vote in a new vote or election. Your ballot may be considered illegitemate if you do not re-generate a new Voter ID.</h2>
     <button id="proceed">Proceed</button>
     <div id="details" style="display: none">
-        <h2 style="color: #338eda"><b>Slack ID:</b></h2>
+        <h2 style="color: #338eda"><b>Non-residential Citizenship ID:</b></h2>
         <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
-            <code id="Slack_ID">${userInfo.data.sub}</code>
+            <code id="Slack_ID">${id}</code>
         </div>
-        <button onclick="copyText('Slack_ID')">Copy text</button>
         <br><br><b><h2 style="color: #338eda">Voter Identification Code:</h2></b>
         <div style="border-radius: 5px; background-color: #8492a6; padding: 10px">
-            <code id="Voter_ID_Code">${voterId}</code>
+            <code id="Voter_ID_Code">${voter_id}</code>
         </div>
-        <button onclick="copyText('Voter_ID_Code')">Copy text</button>
     </div>
     <br><br><p style="color: #8492a6">The Parliament of Hack Club (Hack Club Parliament) and other associated communities and entities are not associated with the Hack Club non-profit organization. This is an unofficial community group and only exists for the purpose of entertainment.</p>
 </div>
