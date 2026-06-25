@@ -44,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var emailError = document.getElementById('email-error');
     var otpSendBtn = document.getElementById('send-code');
     var otpSection = document.getElementById('otp');
+    var otpInput = document.getElementById('otp-input');
+    var submitBtn = document.getElementById('submit');
     emailInput.addEventListener('input', function () {
         if (!validateEmail(emailInput.value) && emailInput.value) {
             emailError.innerHTML = "Please enter a valid email address<br><br>";
@@ -52,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         else if (emailInput.value) {
             otpSendBtn.disabled = false;
+            emailError.innerHTML = "";
             console.log("B");
         }
         else {
@@ -105,6 +108,33 @@ document.addEventListener('DOMContentLoaded', function () {
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
             }
+        });
+    }); });
+    submitBtn.addEventListener("click", function () { return __awaiter(_this, void 0, void 0, function () {
+        var email, code, form, emailField, codeField;
+        return __generator(this, function (_a) {
+            email = emailInput.value.trim().toLowerCase();
+            code = otpInput.value.trim();
+            if (!/^\d{6}$/.test(code)) {
+                alert("Please enter a 6-digit OTP code");
+                return [2 /*return*/];
+            }
+            form = document.createElement("form");
+            form.method = "POST";
+            form.action = "https://voterid.astr.ac/verify-otp";
+            emailField = document.createElement("input");
+            emailField.type = "hidden";
+            emailField.name = "email";
+            emailField.value = email;
+            codeField = document.createElement("input");
+            codeField.type = "hidden";
+            codeField.name = "code";
+            codeField.value = code;
+            form.appendChild(emailField);
+            form.appendChild(codeField);
+            document.body.appendChild(form);
+            form.submit();
+            return [2 /*return*/];
         });
     }); });
 });

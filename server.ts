@@ -672,10 +672,11 @@ app.post("/nrc-email-check", async(req:Request, res:Response) => {
             to: email,
             subject: "Your Verification Code",
             html: `<body style="background-color: #e0e6ed; text-align: center; font-family: 'Phantom Sans', Helvetica, sans-serif; margin-left: 10%; margin-right: 10%;">
-    <p style="color: #ec3750; font-size: 1.6rem"><b>This is NOT your Voter ID. Please log in using this code and click Submit to obtain your Voter ID.</b></p>
+    <p style="color: #ec3750; font-size: 1.6rem"><b><u>This is NOT your Voter ID.</u> Please log in using this code and click Submit to obtain your Voter ID.</b></p>
     <p style="color: #ec3750; font-size: 1.5rem"><b>This is a one time passcode. Do not share this code with anyone.</b></p>
     <p style="font-size: 1.75rem; margin-bottom: 0.2rem;">Your verification code is:</p>
     <div style="background-color: #8492a6; color: white; width: 15rem; font-size: 3rem; padding: 1.5rem; letter-spacing: 0.5rem; font-family: monospace; margin-left: auto; margin-right: auto; border-radius: 15px"><b>${otp}</b></div>
+    <u><h3>This is NOT your Voter ID. If you use this as your voter ID, your ballot will be invalidated</h3></u>
     <p style="font-size: 1.7rem; color: #ec3750">This verification code will expire in 30 minutes.</p>
     <br><br>
     <p>Official communication from the National Immigration and Citizenship Office of the Democratic Republic of Hack Club and Hack Club Election Committee. Only trust emails coming from *@hcgov.uk</p>
