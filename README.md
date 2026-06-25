@@ -1,4 +1,4 @@
-# HC Parliament Voter ID Registration System Version 3
+# HC Parliament Voter ID Registration System Version 4
 ### Unique Voter identification system for Hack Club Parliament
 ### [https://voterid.hcgov.uk](https://voterid.hcgov.uk)
 
@@ -11,6 +11,10 @@
 - Proceed with instructions on the following page
 - You will land on a page thanking you for signing up to vote, **make sure you read the disclaimers**!
 - After you're done, click Proceed
+
+- If you are not on the Hack Club Slack, you may apply for Non-residential Citizenship (Note: Status of Non-residential citizen may be given and revoked at any time at the discretion of the Government of the Democratic Republic of Hack Club). Please contact [immigration@hcgov.uk](mailto:immigration@hcgov.uk) or join the Embassy for more details.
+- You can pick Log-in with Non-residential Citizenship, and enter your email. After, you'll receive a 6-digit numeric OTP code. THIS IS NOT YOUR VOTER ID.
+- Enter the 6-digit code into the field and you'll receive your Voter ID.
 
 > We generate this code by passing your Slack ID  which we get directly from Slack's API through an algorithm to ensure security!
 
@@ -31,6 +35,7 @@ Select and copy, or click on the "Copy" button to save the code to your clipboar
   - Text: "Hackatime"
   - Autonumber: "Index"
 - Get your Airtable API key at [https://airtable.com/create/tokens](https://airtable.com/create/tokens)
+- Get your Resend API key at [https://resend.com](https://resend.com)
 ```
 The bot should have the following:
 
